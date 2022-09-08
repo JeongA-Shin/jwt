@@ -1,5 +1,6 @@
 package group.jwtproject.config;
 
+import group.jwtproject.config.jwt.JwtAuthenticationFilter;
 import group.jwtproject.filter.MyFilter1;
 import group.jwtproject.filter.MyFilter3;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .addFilter(corsConfig.corsFilter()) //cross-origin 정책에서 벗어남
             .formLogin().disable() //jwt 쓸 거니까 폼로그인 안 씀 #2
+            .addFilter(new JwtAuthenticationFilter(authenticationManager())) //WebSecurityConfigurerAdapter가 authenticationManager를 가지고 있음,UsernamePasswordAuthenticationFilter는 authenticationManager로 가지고 동작 절차를 밟기 때문에 필수임
             .httpBasic().disable() //로그인에 기본적인 http 방식을 안 씀 - Bearer 방식 쓸 거임#3
             .authorizeRequests()
             .antMatchers("/api/v1/user/**")
