@@ -1,11 +1,13 @@
 package group.jwtproject.config;
 
+import group.jwtproject.filter.MyFilter1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         
         // jwt 방식을 도입하면 #1, #2, #3은 기본 세팅임
+        
+        //security필터에 내가 만든 필터도 걸기 - 기본적인 BasicAutenticatinFilter가 실행되지 전에 내가 만든 필터가 추가되도록 함
+        //이렇게 해도 되긴 하지만 나는 FilterConfig에서 따로 내가 만든 필터를 추가해줌
+        //단!!! 내가 만든 필터보다 security 필터체인이 무조건 우선 순위임, 내가 스스로 우선순위를 부여해도 그건 일단 security 필터가 먼저 수행되고 나서의 우선순위임!
+        //필터에서 우선순위를 잘 부여하려면, security filter 외의 다른 필터의 우선순위와 before, after 함수를 잘 파악해줘야 함
+        //즉, 필터 실행시 우선 순위를 따질 때, security 필터 체인 내에서의 필터 우선수위를 먼저 잘 파악해야 함
+        //http.addFilterBefore(new MyFilter1(), BasicAuthenticationFilter.class);
         
         http.csrf().disable();
         //세션을 사용하지 않겠다 == stateless 서버로 만들겠다
