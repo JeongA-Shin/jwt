@@ -1,6 +1,7 @@
 package group.jwtproject.config;
 
 import group.jwtproject.filter.MyFilter1;
+import group.jwtproject.filter.MyFilter3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //필터에서 우선순위를 잘 부여하려면, security filter 외의 다른 필터의 우선순위와 before, after 함수를 잘 파악해줘야 함
         //즉, 필터 실행시 우선 순위를 따질 때, security 필터 체인 내에서의 필터 우선수위를 먼저 잘 파악해야 함
         //http.addFilterBefore(new MyFilter1(), BasicAuthenticationFilter.class);
+        
+        //시큐리티 필터가 동작하기 전에 내가 만든 필터가 동작하도록
+        http.addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class);
         
         http.csrf().disable();
         //세션을 사용하지 않겠다 == stateless 서버로 만들겠다
