@@ -3,11 +3,13 @@ package group.jwtproject.config.auth;
 import group.jwtproject.model.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RequiredArgsConstructor
+@Data
 public class PrincipalDetails implements UserDetails {
     
     private final User user;
