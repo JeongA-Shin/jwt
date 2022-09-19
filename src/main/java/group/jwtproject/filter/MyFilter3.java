@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MyFilter3 implements Filter {
     
+    //내가 임의로 만든 필터 태워보기
+    
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
@@ -25,6 +27,11 @@ public class MyFilter3 implements Filter {
          * 그 때 넘어온 토큰을 내가 전에 해당 사용자에게 응답으로 보내준 토큰과 동일한지만 검증하면 됨
          */
     
+        //계속해서 필터 체인 타게 해줌 - 이거 안 해주면 여기서 해당 필터에서 걸리고 다음 단계로 진행을 못함
+        chain.doFilter(req, res);
+    
+        
+        /*
         if(req.getMethod().equals("POST")) { //POST일 때만 검증함
             String headerAuth = req.getHeader("Authorization"); //request header에서의 auth 부분만 받아오기
             //req header의 auth 값이 우리가 원하는 값일 때만 필터 체인을 태움
@@ -35,5 +42,6 @@ public class MyFilter3 implements Filter {
                 outPrintWriter.println("not authorized");
             }
         }
+        */
     }
 }

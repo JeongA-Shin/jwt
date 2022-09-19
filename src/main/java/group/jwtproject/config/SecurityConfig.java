@@ -1,8 +1,10 @@
 package group.jwtproject.config;
 
 import group.jwtproject.config.jwt.JwtAuthenticationFilter;
+import group.jwtproject.config.jwt.JwtAuthorizationFilter;
 import group.jwtproject.filter.MyFilter1;
 import group.jwtproject.filter.MyFilter3;
+import group.jwtproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
 
     private final CorsConfig corsConfig; //corsConfig에서 bean으로 등록되어 있으므로 이렇게 di 가능
+    private final UserRepository userRepository;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(corsConfig.corsFilter()) //cross-origin 정책에서 벗어남
             .formLogin().disable() //jwt 쓸 거니까 폼로그인 안 씀 #2
             .addFilter(new JwtAuthenticationFilter(authenticationManager())) //WebSecurityConfigurerAdapter가 authenticationManager를 가지고 있음,UsernamePasswordAuthenticationFilter는 authenticationManager로 가지고 동작 절차를 밟기 때문에 필수임
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository))
             .httpBasic().disable() //로그인에 기본적인 http 방식을 안 씀 - Bearer 방식 쓸 거임#3
             .authorizeRequests()
             .antMatchers("/api/v1/user/**")

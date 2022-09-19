@@ -2,6 +2,7 @@ package group.jwtproject.controller;
 
 import group.jwtproject.model.User;
 import group.jwtproject.repository.UserRepository;
+import javax.persistence.GeneratedValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,26 @@ public class RestApi {
         
         return "join success";
     }
+    
+    
+    //user,manager, admin 권한들이 접근 가능
+    @GetMapping("/api/v1/user")
+    public String user(){
+        return "user";
+    }
+    
+    //manager, admin 권한들이 접근 가능
+    @GetMapping("/api/v1/manager")
+    public String manager(){
+        return "manager";
+    }
+    
+    //admin 권한이 접근 가능
+    @GetMapping("/api/v1/admin")
+    public String admin(){
+        return "admin";
+    }
+    
     
     
 }

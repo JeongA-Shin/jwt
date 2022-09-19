@@ -19,13 +19,14 @@ public class FilterConfig {
      * 이렇게 빈으로 했기 때문에 자동으로 filter chain에 아래의 필터들이 등록됨
      * @return
      */
+    /*
     @Bean
     public FilterRegistrationBean<MyFilter1> filter1(){
         FilterRegistrationBean<MyFilter1> bean = new FilterRegistrationBean<>(new MyFilter1());
         bean.addUrlPatterns("/*");//모든 요청에 대해서 해당 필터가 적용됨
         bean.setOrder(0);//필터의 우선순위 정하기 - 0이면 제일 높음
         return bean;
-    }
+    }*/
     
     
     /*@Bean
